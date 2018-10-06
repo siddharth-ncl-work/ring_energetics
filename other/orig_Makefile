@@ -1,0 +1,3 @@
+compile : main_rotation.c source/rotation.c source/shared_methods.c source/header_rotation.h source/error_analysis.c param.c
+	gcc -Wall -ggdb3 main_rotation.c source/rotation.c source/shared_methods.c source/error_analysis.c param.c -lm -o output/a.out
+	valgrind --tool=memcheck --leak-check=full output/a.out
