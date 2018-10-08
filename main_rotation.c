@@ -55,7 +55,7 @@ int main(){
 
 
 //*******DIPOLE MOMENT*********//
-  if(1){
+  if(0){
   int f1=0,isf1;
   double *dm;
   //for(i=0;i<atoms;i++)printf("%d) %f\n",i,charge[i]); 
@@ -174,6 +174,15 @@ int main(){
   free(orig_f2cords);
   }
   
+  if(1){
+  double ke;
+  getFrameRangeEnergy(files,start_frame,end_frame,step_size);
+  ke=getRingRotKE(files,9937,9938,1);
+  printf("ring ke = %e\n",ke);
+  ke=getRingTransKE(files,9937,9938,1);
+  printf("ring ke = %e\n",ke);
+
+  }
   
   return 0;
 }

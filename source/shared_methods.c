@@ -304,7 +304,14 @@ double getAngleD(double *a,double *b){
   d=floor(d*1000000)/1000000;
   d=acos(d);
   return d*180/pi;
-  
+}
+
+double getAngleR(double *a,double *b){
+  double d;
+  d=getDotPro(a,b)/(getMag(a)*getMag(b));
+  d=floor(d*1000000)/1000000;
+  d=acos(d);
+  return d;
 }
 
 double dist(double **cords,int a,int b){

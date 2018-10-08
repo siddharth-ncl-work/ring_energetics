@@ -129,6 +129,10 @@ double getTrans(double v1[],double v2[]){
   for(i=0;i<3;i++){
     trans[i]=v2[i]-v1[i];
   }
+  for(i=0;i<3;i++)printf("%f ",v1[i]);printf("\n");
+  for(i=0;i<3;i++)printf("%f ",v2[i]);printf("\n");
+  printf("in1=%e %e %e\n",trans[0],trans[1],trans[2]);
+  printf("in1mag=%e\n",getMag(trans));
   return getMag(trans);
 }
 

@@ -11,11 +11,17 @@ char *charge_file_name="/home/vanka/siddharth/ruchi/dm_test/charge_dm_test";
 
 
 //directionality parameters
-int start_frame=0;
-int end_frame=8711;
-int step_size=10;       //********The old "inc" variable
+int start_frame=9937;
+int end_frame=9938;
+int step_size=1;       //********The old "inc" variable
 double epsi=37.6;
 double K=23070.708216/37.6;     //in pN
+//energy
+double amu=1.6605e-27;
+double angstorm=1e-10;
+double femto=1e-15;
+double timeStep=0.5;
+
 
 //****notes*****//
 // 1) Changed #atoms(atm_v) in shiftOrigin
