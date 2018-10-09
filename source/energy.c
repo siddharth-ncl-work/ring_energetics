@@ -16,7 +16,6 @@
 double **createData(double *a,double *b,double *c,double *d,int n){
   int i=0;
   double **data;
-  for(i=0;i<n;i++)printf("a[%d] = %d b[%d] = %e d[%d] = %f\n",i,(int)a[i],i,b[i],i,d[i]);
   data=join1dArrays_d(a,b,n);
   data=join21dArrays_d(data,c,n,2);
   data=join21dArrays_d(data,d,n,3);
@@ -90,10 +89,7 @@ double getFrameRangeEnergy(char *files[],int start_frame,int end_frame,int step_
    
   }
   itr--;
-  printf("noofpoints=%d...",data_points);
   printf("\n%d avg rot=%e trans=%e effi=%f\n",itr,avg_rot_ke/itr,avg_trans_ke/itr,avg_effi/itr);
-  //for(i=0;i<data_points;i++)printf("effi_buff[%d] = %f\n",i,effi_buff[i]);
-  //for(i=0;i<data_points;i++)printf("a[%d] = %d b[%d] = %e d[%d] = %e\n",i,frame_buff[i],i,rot_ke_buff[i],i,effi_buff[i]);
   data=createData(frame_buff,rot_ke_buff,trans_ke_buff,effi_buff,data_points);
   writeCsv("output/test_csv.csv","frame,rot_ke,trans_ke,effi",data,data_points,4);
   //getEnergyStats(rot_ke,trans_ke);

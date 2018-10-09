@@ -8,11 +8,12 @@ int ring_atom=72;  //number of ring atoms
 int track_start_atom_no=72;
 int track_end_atom_no=207;
 char *charge_file_name="/home/vanka/siddharth/ruchi/dm_test/charge_dm_test";
+char *version="1.0.0";
 
 
 //directionality parameters
-int start_frame=0;
-int end_frame=142856;
+int start_frame=9500;
+int end_frame=10000;
 int step_size=1;       //********The old "inc" variable
 double epsi=37.6;
 double K=23070.708216/37.6;     //in pN

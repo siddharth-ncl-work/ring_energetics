@@ -356,8 +356,7 @@ double **join21dArrays_d(double **a,double *b,int n_rows,int m1){
 void writeCsv(char *file_name,char *header,double **data,int n,int m){
   FILE *file=fopen(file_name,"w");
   int i=0,j=0;
-  fprintf(file,"%s\n",header);
-  //for(i=0;i<m;i++)fprintf("%s,",header[i]);printf("\n");
+  fprintf(file,"%s\n",header); 
   for(i=0;i<n;i++){
     for(j=0;j<m;j++){
       if(j==0)fprintf(file,"%d,",(int)data[i][j]);
