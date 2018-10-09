@@ -101,6 +101,7 @@ extern int track_end_atom_no;
 extern int atoms,ax;
 extern double **f1cords,**f2cords,**orig_f1cords,**orig_f2cords;
 extern char **c;
+extern char *outfile_name;
 //torque
 extern double axis[3][3];
 extern double *charge;
