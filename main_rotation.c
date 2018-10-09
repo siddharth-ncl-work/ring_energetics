@@ -177,10 +177,10 @@ int main(){
   if(1){
   double ke;
   getFrameRangeEnergy(files,start_frame,end_frame,step_size);
-  ke=getRingRotKE(files,9937,9938,1);
-  printf("ring ke = %e\n",ke);
-  ke=getRingTransKE(files,9937,9938,1);
-  printf("ring ke = %e\n",ke);
+  //ke=getRingRotKE(files,9937,9938,1);
+  //printf("ring ke = %e\n",ke);
+  //ke=getRingTransKE(files,9937,9938,1);
+  //printf("ring ke = %e\n",ke);
 
   }
   

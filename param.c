@@ -1,6 +1,6 @@
 //** file for all global variables **//
 
-int ax=0;
+int ax=1;
 char *file1_name="/home/vanka/siddharth/ruchi/code_file_v1.0.5_with_counter_ions_8_8_18/input/mol_1.xyz";
 char *file2_name="/home/vanka/siddharth/ruchi/code_file_v1.0.5_with_counter_ions_8_8_18/input/mol_1.xyz";
 int file_limit=142856; //file break point
@@ -11,8 +11,8 @@ char *charge_file_name="/home/vanka/siddharth/ruchi/dm_test/charge_dm_test";
 
 
 //directionality parameters
-int start_frame=9937;
-int end_frame=9938;
+int start_frame=0;
+int end_frame=142856;
 int step_size=1;       //********The old "inc" variable
 double epsi=37.6;
 double K=23070.708216/37.6;     //in pN
@@ -20,7 +20,7 @@ double K=23070.708216/37.6;     //in pN
 double amu=1.6605e-27;
 double angstorm=1e-10;
 double femto=1e-15;
-double timeStep=0.5;
+double timeStep=0.5;   //in femtoSeconds
 
 
 //****notes*****//

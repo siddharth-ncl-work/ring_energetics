@@ -80,6 +80,12 @@ double getRingRotKE(char **,int,int,int);
 double getAtmTransKE(int);
 double getRingTransKE(char **,int,int,int);
 double getFrameRangeEnergy(char *[],int,int,int);
+//void getEnergyStats(double *,double *);
+double **createData(double *,double *,double *,double *,int);
+double **join1dArrays_d(double *,double *,int);  //shared_methods.c
+double **join21dArrays_d(double **,double *,int,int); //shared_methods.c
+void writeCsv(char *,char *,double **,int,int); //shared_methods.c
+
 
 
 //gobal variables

@@ -322,6 +322,49 @@ void writeOutput(FILE *file,int frame,double *angles){
   fprintf(file,"%d   %f\n",frame,angles[ax]);
 }
 
+double **join1dArrays_d(double *a,double *b,int n_rows){
+  int i,j,k;
+  double **data=(double **)malloc(sizeof(double *)*n_rows);
+  for(i=0;i<n_rows;i++){
+    *(data+i)=(double *)malloc(sizeof(double)*(2));
+  }
+  for(i=0;i<n_rows;i++){
+    data[i][0]=a[i]; 
+    data[i][1]=b[i];
+  }
+
+  return data;
+}
+
+double **join21dArrays_d(double **a,double *b,int n_rows,int m1){
+  int i,j,k;
+  double **data=(double **)malloc(sizeof(double *)*n_rows);
+  for(i=0;i<n_rows;i++){
+    *(data+i)=(double *)malloc(sizeof(double)*(m1+1));
+  }
+  for(i=0;i<n_rows;i++){
+    for(j=0;j<m1;j++){
+      data[i][j]=a[i][j];
+    }
+    data[i][m1]=b[i];
+  }
+
+  return data;
+}
+
+//make data as char***
+void writeCsv(char *file_name,char *header,double **data,int n,int m){
+  FILE *file=fopen(file_name,"w");
+  int i=0,j=0;
+  fprintf(file,"%s\n",header);
+  //for(i=0;i<m;i++)fprintf("%s,",header[i]);printf("\n");
+  for(i=0;i<n;i++){
+    for(j=0;j<m;j++){
+      if(j==0)fprintf(file,"%d,",(int)data[i][j]);
+      else fprintf(file,"%e,",data[i][j]);
+    }fprintf(file,"\n");
+  }
+}
 
 //**************NO NEED TO CHANGE NAMES HERE*********//
 

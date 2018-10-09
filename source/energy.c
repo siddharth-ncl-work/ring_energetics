@@ -1,17 +1,34 @@
 #include "header_rotation.h"
 
+/*void getEnergyStats(double *rot_ke,double *trans_ke){
+  int i=0;
+  double d=0,avg_rot_ke=0,avg_trans_ke=0,effi[ring_atom],avg_effi=0;
+  for(i=0;i<ring_atom;i++){
+    avg_rot_ke+=rot_ke[i];
+    avg_trans_ke+=trans_ke[i];
+    effi[i]=rot_ke[i]*100/(rot_ke[i]+trans_ke[i]);
+    avg_effi+=effi[i];
+  }
+  
+  printf("\navg rot=%e trans=%e effi=%f\n",avg_rot_ke/ring_atom,avg_trans_ke/ring_atom,avg_effi/ring_atom);
+}*/
+
+double **createData(double *a,double *b,double *c,double *d,int n){
+  int i=0;
+  double **data;
+  for(i=0;i<n;i++)printf("a[%d] = %d b[%d] = %e d[%d] = %f\n",i,(int)a[i],i,b[i],i,d[i]);
+  data=join1dArrays_d(a,b,n);
+  data=join21dArrays_d(data,c,n,2);
+  data=join21dArrays_d(data,d,n,3);
+  return data;
+}
 
 double getFrameRangeEnergy(char *files[],int start_frame,int end_frame,int step_size){
-  int i=0,j=0,f1=-1,f2=-1,is_read=-1;
+  int i=0,j=0,f1=-1,f2=-1,is_read=-1,itr=1,data_points=(end_frame-start_frame)/step_size;
   FILE *file1,*file2;
   //FILE *mix_out=fopen("output/mix_out.dat","w");
-  //FILE *pos_out=fopen("output/pos_out.dat","w");
-  //FILE *neg_out=fopen("output/neg_out.dat","w");
-  //FILE *torque_out=fopen("output/torque.dat","w");
-  double rot_ke,trans_ke,**tmp_cords;//*net_rpy,*rpy,*net_torque,*trpy;
+  double **data,frame_buff[data_points],rot_ke_buff[data_points],trans_ke_buff[data_points],effi_buff[data_points],rot_ke=0,trans_ke=0,effi=0,avg_rot_ke=0,avg_trans_ke=0,avg_effi=0,**tmp_cords;
 
-  //net_rpy=(double *)malloc(sizeof(double)*3);
-  //for(i=0;i<3;i++)net_rpy[i]=0;
   tmp_cords=(double **)malloc(sizeof(double *)*atoms);
   for(i=0;i<atoms;i++){
   *(tmp_cords+i)=(double *)malloc(sizeof(double)*3);
@@ -26,7 +43,7 @@ double getFrameRangeEnergy(char *files[],int start_frame,int end_frame,int step_
     //printf("Found frame %d\n",f1);
   }
 
-  for(f2=f1+step_size;f2<=end_frame;f2+=step_size){
+  for(f2=f1+step_size,itr=1;f2<=end_frame;f2+=step_size,itr++){
     if((f1<=file_limit?files[0]:files[1])!=(f2<=file_limit?files[0]:files[1])){
       file2=fopen(f2<=file_limit?files[0]:files[1],"r");
       //printf("file2 pointer changed\n");
@@ -48,44 +65,21 @@ double getFrameRangeEnergy(char *files[],int start_frame,int end_frame,int step_
       }
     }
 
-    //printf("First\n");
-    //printCords(f2cords,c);
-
     printf("\nstep_size = %d frame = %d\n",step_size,f1);
     rot_ke=getRingRotKE(files,f1,f2,0);
     trans_ke=getRingTransKE(files,f1,f2,0);
-    printf("rot_ke=%e trans_ke=%e\n",rot_ke,trans_ke);
-    /*rpy=getRingRotation(files,f1,f2,0);
-    for(i=0;i<3;i++)printf("%f ",rpy[i]);printf("\n");
-
-    //printf("Second\n");
-    //printCords(f2cords,c);
-
-    //track_rotation
-    if(0){
-    trpy=getTrackRotation(files,f1,f2,track_start_atom_no,track_end_atom_no,0);
-    for(i=0;i<3;i++)printf("%f ",trpy[i]);printf("\n");
-    for(i=0;i<3;i++)rpy[i]-=trpy[i];
-    for(i=0;i<3;i++)printf("%f ",rpy[i]);printf("\n");
-
-    //ml_fix
-    free(trpy);
-    }
-
-    //printf("Third\n");
-    //printCords(f2cords,c);
-
-    //torque
+    effi=rot_ke*100/(rot_ke+trans_ke);
+    printf("rot_ke=%e trans_ke=%e effi=%f\n",rot_ke,trans_ke,effi);
+    avg_rot_ke+=rot_ke;
+    avg_trans_ke+=trans_ke;
+    avg_effi+=effi;
    
-    net_torque=getTorqueInFrame(f2);
-    for(i=0;i<3;i++)printf("%f ",net_torque[i]);printf("\n");
-    writeTorqueOutput(torque_out,f2,net_torque,rpy[ax]);
-    
+    //buffers
+    rot_ke_buff[itr-1]=rot_ke;
+    trans_ke_buff[itr-1]=trans_ke;
+    effi_buff[itr-1]=effi;
+    frame_buff[itr-1]=f1;
 
-    writeOutput(mix_out,f1,rpy);
-    if(rpy[ax]<0)writeOutput(neg_out,f1,rpy);
-    else writeOutput(pos_out,f1,rpy);
-    for(i=0;i<3;i++) net_rpy[i]+=rpy[i];*/
     f1=f2;
     file1=file2;
     for(i=0;i<atoms;i++){
@@ -93,20 +87,21 @@ double getFrameRangeEnergy(char *files[],int start_frame,int end_frame,int step_
         f1cords[i][j]=tmp_cords[i][j];
       }
     }
-
-    //mlfix
-    //free(rpy);
-    //free(trpy);
+   
   }
+  itr--;
+  printf("noofpoints=%d...",data_points);
+  printf("\n%d avg rot=%e trans=%e effi=%f\n",itr,avg_rot_ke/itr,avg_trans_ke/itr,avg_effi/itr);
+  //for(i=0;i<data_points;i++)printf("effi_buff[%d] = %f\n",i,effi_buff[i]);
+  //for(i=0;i<data_points;i++)printf("a[%d] = %d b[%d] = %e d[%d] = %e\n",i,frame_buff[i],i,rot_ke_buff[i],i,effi_buff[i]);
+  data=createData(frame_buff,rot_ke_buff,trans_ke_buff,effi_buff,data_points);
+  writeCsv("output/test_csv.csv","frame,rot_ke,trans_ke,effi",data,data_points,4);
+  //getEnergyStats(rot_ke,trans_ke);
   fclose(file2);
-  //fclose(mix_out);
-  //fclose(pos_out);
-  //fclose(neg_out);
 
   //mlfix
   for(i=0;i<atoms;i++)free(tmp_cords[i]);
   free(tmp_cords);
-  //free(rpy);
 
   return 1;
 }
@@ -124,7 +119,6 @@ double getAtmRotKE(int n){
 
   theta=getAngleR(f1cords[n],f2cords[n]);
   w=theta/(timeStep*femto);
-  //printf("MI=%e w=%e\n",getMI(n),w);
   return 0.5*getMI(n)*pow(w,2);
   
 }
@@ -175,40 +169,20 @@ double getRingRotKE(char **files,int f1,int f2,int test){
   return ke;
 }
 
-/*
-double getTrans(double v1[],double v2[]){
-  int i=0;
-  double d=0.0;
-  double trans;*trans=(double *)malloc(sizeof(double)*3);
-  trans=getMag(v2)-getMag(v1);
-  trans=getuv1(v2);
-  for(i=0;i<3;i++){
-    trans[i]*=d;
-  }
-  return trans;
-}
-*/
 
 double getAtmTransKE(int n){
   int i=0;
   double trans,v;
-  printf("f1 ");for(i=0;i<3;i++)printf("%f ",f1cords[n][i]);printf("\n");
-  printf("f2 ");for(i=0;i<3;i++)printf("%f ",f2cords[n][i]);printf("\n");
   trans=getTrans(f1cords[n],f2cords[n]);
   v=trans*angstorm/(timeStep*femto);
-  printf("t=%e\n",trans);
   return 0.5*getAtmass(n,c)*amu*pow(v,2);
-
 }
 
 
 double getRingTransKE(char **files,int f1,int f2,int test){
   int i=0,j=0,isf1=0,isf2=0;
   double *f1com,*f2com,ke=0;
-  /*if(test){
-    printCords(f1cords,c);
-    printCords(f2cords,c);
-  }*/
+  
   if(test){
     FILE *file1=fopen(f1<=file_limit?files[0]:files[1],"r");
     FILE *file2=fopen(f2<=file_limit?files[0]:files[1],"r");
@@ -234,16 +208,13 @@ double getRingTransKE(char **files,int f1,int f2,int test){
         orig_f2cords[i][j]=f2cords[i][j];
       }
     }
+  
+    f1com=getCom(f1cords,ring_atom);
+    f2com=getCom(f2cords,ring_atom);
+    for(i=0;i<3;i++)f2com[i]=f2com[i]-f1com[i];
+    shiftOrigin(f1com,f2com);
   }
 
-  f1com=getCom(f1cords,ring_atom);
-  f2com=getCom(f2cords,ring_atom);
-  for(i=0;i<3;i++)f2com[i]=f2com[i]-f1com[i];
-  shiftOrigin(f1com,f2com);
-  if(!test){
-    printCords(f1cords,c);
-    printCords(f2cords,c);
-  }
   for(i=0;i<ring_atom;i++){
     ke=+getAtmTransKE(i);
   }
