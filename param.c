@@ -12,8 +12,8 @@ char *version="1.0.0";
 
 
 //directionality parameters
-int start_frame=0;
-int end_frame=142856;
+int start_frame=9500;
+int end_frame=10000;
 int step_size=1;       //********The old "inc" variable
 double epsi=37.6;
 double K=23070.708216/37.6;     //in pN
