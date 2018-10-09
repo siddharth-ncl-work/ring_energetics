@@ -25,6 +25,7 @@ double getMag(double *);
 double **getR(double *,double);
 double *getRPY(double *,double *);
 double getAngleD(double *,double *);
+double getAngleR(double *,double *);
 double dist(double **,int,int);
 //void createFile(char **,int,double,double **);
 void writeOutput(FILE *,int,double *);
@@ -71,6 +72,20 @@ double *dmGetDirectionality(char *[],int,int,int);
 double *dmGetRingRotation(char **,int,int,int);
 double *dmGetTrackRotation(char **,int,int,int,int,int);
 double *getDm(double **,double *,int,int,double *);
+//*****energy*******//
+double getMI(int);
+double getRotKE(int);
+double getAtmRotKE(int);
+double getRingRotKE(char **,int,int,int);
+double getAtmTransKE(int);
+double getRingTransKE(char **,int,int,int);
+double getFrameRangeEnergy(char *[],int,int,int);
+//void getEnergyStats(double *,double *);
+double **createData(double *,double *,double *,double *,int);
+double **join1dArrays_d(double *,double *,int);  //shared_methods.c
+double **join21dArrays_d(double **,double *,int,int); //shared_methods.c
+void writeCsv(char *,char *,double **,int,int); //shared_methods.c
+
 
 
 //gobal variables
@@ -91,4 +106,9 @@ extern double axis[3][3];
 extern double *charge;
 extern char *charge_file_name;
 extern double K;
+//energy
+extern double amu;
+extern double angstorm;
+extern double femto;
+extern double timeStep;
 #endif
