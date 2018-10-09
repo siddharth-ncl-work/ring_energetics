@@ -91,7 +91,7 @@ double getFrameRangeEnergy(char *files[],int start_frame,int end_frame,int step_
   itr--;
   printf("\n%d avg rot=%e trans=%e effi=%f\n",itr,avg_rot_ke/itr,avg_trans_ke/itr,avg_effi/itr);
   data=createData(frame_buff,rot_ke_buff,trans_ke_buff,effi_buff,data_points);
-  writeCsv("output/test_csv.csv","frame,rot_ke,trans_ke,effi",data,data_points,4);
+  writeCsv(outfile_name,"frame,rot_ke,trans_ke,effi",data,data_points,4);
   //getEnergyStats(rot_ke,trans_ke);
   fclose(file2);
 
