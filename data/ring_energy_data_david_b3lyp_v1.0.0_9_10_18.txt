@@ -1,0 +1,6 @@
+david_1 = 4002 avg rot=1.943059e-20 trans=2.662104e-20 effi=41.816705
+b3lyp
+with = 142856 avg rot=1.912880e-20 trans=2.625336e-20 effi=42.474766
+without = 20127 avg rot=1.866934e-20 trans=2.578042e-20 effi=42.726335
+without_one = 65103 avg rot=3.448229e-20 trans=2.649241e-20 effi=61.514979
+

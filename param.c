@@ -9,7 +9,7 @@ int track_start_atom_no=72;
 int track_end_atom_no=207;
 char *charge_file_name="/home/vanka/siddharth/ruchi/dm_test/charge_dm_test";
 char *version="1.0.0";
-char *outfile_name="output/energy_data_david_1_v1.0.0_9_10_18";
+char *outfile_name="output/energy_data_david_1_v1.0.0_9_10_18.csv";
 
 //directionality parameters
 int start_frame=0;
